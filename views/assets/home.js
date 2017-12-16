@@ -38,6 +38,7 @@ $(document).ready(function () {
             $("#detailoutput").show();
             $("#contactlist").hide();
             $("#newcontact").hide();
+            $("#editpage").hide();
             // $('#detailoutput').html('<label for="name">Name: </label><strong>'+users[users.length-1].name+'</strong><br><label for="email">Email: </label><strong>'+users[users.length-1].email+'</strong><br><label for="phone">Phone: </label><strong>'+users[users.length-1].phone+'</strong>')
 
         })
@@ -54,14 +55,34 @@ function successHandler(users) {
         $line.append( $( "<td></td>" ).html( user.name ) )
         $line.append( $( "<td></td>" ).html( user.email ) )
         $line.append( $( "<td></td>").html( user.phone ) )
+        $line.append( $( "<td>"))
+        //details button
+        //edit button
+        $line.append( $( "<button id = 'yellow'>Edit</button>"))
+        //delete button
+        const redDelete = $( "<button id = 'red'>/button>" ).text('DELETE');
+        $line.append(redDelete)
+        $line.append( $( "</td>"))
         $table.append( $line )
+        
+            redDelete.click(() => {
+                const confirmDelete = confirm("Are you sure?")
+                if (confirmDelete) {
+                    deleteContact(user.id);
+                    contactList();
+                }
+            })
+
+
     }
 
     $('#output').empty()
-    $table.appendTo( $('#output') )
-    detailOutput(users);
+    $table.appendTo( $('#output') ) //adding table to output div
+    detailOutput(users); //adds data for newest created user to be displayed
     
 }
+
+
 
 function errorHandler(jqXHR, textStatus, error) {
     $('#output').val("textStatus: " + textStatus + ". server error: " + error)
@@ -71,21 +92,47 @@ function contactList(){
     $("#contactlist").show();
     $("#newcontact").hide();
     $("#detailoutput").hide();
+    $("#editpage").hide();
 }
 
 function newContact(){
     $("#newcontact").show();
     $("#contactlist").hide();
     $("#detailoutput").hide();
+    $("#editpage").hide();
 }
 
 function detailPage(){
     $("#detailoutput").show();
     $("#contactlist").hide();
     $("#newcontact").hide();
+    $("#editpage").hide();
 }
 
+function editPage(){
+    $("#detailoutput").hide();
+    $("#contactlist").hide();
+    $("#newcontact").hide();
+    $("#editpage").show();
+
+    $('input[name=nameedit]:text').val(`${user.name}`);
+    $('input[name=emailedit]:text').val(`${user.email}`);
+    $('input[name=phoneedit]:text').val(`${user.phone}`);
+}
+
+
+//data to be displayed after user is redirected after adding new contact
 function detailOutput(users){
     $('#detailcontent').html('<label for="name">Name: </label><strong>'+users[users.length-1].name+'</strong><br><label for="email">Email: </label><strong>'+users[users.length-1].email+'</strong><br><label for="phone">Phone: </label><strong>'+users[users.length-1].phone+'</strong>')
     // $('<label for="name">Name: </label><strong>'+users[users.length-1].name+'</strong><br><label for="email">Email: </label><strong>'+users[users.length-1].email+'</strong><br><label for="phone">Phone: </label><strong>'+users[users.length-1].phone+'</strong>').appendTo('#detailsform')
+}
+
+function deleteContact(id){
+    $.ajax({
+        type: 'DELETE',
+        url: `api/user/${id}`,
+        dataType: 'json',
+    })
+    .done(successHandler)
+    .fail(errorHandler)
 }

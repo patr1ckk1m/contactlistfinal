@@ -8,6 +8,8 @@ $(document).ready(function () {
     .fail(errorHandler)
 
     contactList();
+    $("#gohome").click(contactList);
+    $("#addnew").click(newContact);
 
     // process the form
     $('#sendButtopn').click(() => {
@@ -57,4 +59,9 @@ function errorHandler(jqXHR, textStatus, error) {
 function contactList(){
     $("#contactlist").show();
     $("#newcontact").hide();
+}
+
+function newContact(){
+    $("#newcontact").show();
+    $("#contactlist").hide();
 }

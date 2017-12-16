@@ -13,12 +13,15 @@ api.post('/user', (req, res) => {
         userId = users[users.length - 1].id + 1
     }
 
-    // const newUser = {
-    //     id: userId,
-    //     ...user
-    // }
+    const newUser = {
+        id: userId,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone
+    }
 
     users.push(newUser)
+    console.log(users); //checking to make sure values are saved
     store.saveUsers(users)
 
     res.json(users)

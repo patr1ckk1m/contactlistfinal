@@ -23,7 +23,7 @@ $(document).ready(function () {
         }
 
         const requestData = JSON.stringify(formData)
-
+        
         $.ajax({
                 type: 'POST', 
                 url: 'api/user', 
@@ -34,8 +34,15 @@ $(document).ready(function () {
             .done(successHandler)
             .fail(errorHandler)
     })
+        $("#submit").click(function(users){
+            $("#detailoutput").show();
+            $("#contactlist").hide();
+            $("#newcontact").hide();
+            // $('#detailoutput').html('<label for="name">Name: </label><strong>'+users[users.length-1].name+'</strong><br><label for="email">Email: </label><strong>'+users[users.length-1].email+'</strong><br><label for="phone">Phone: </label><strong>'+users[users.length-1].phone+'</strong>')
 
+        })
 })
+
 
 function successHandler(users) {
     console.log(`Response has ${users.length} users`)
@@ -52,6 +59,8 @@ function successHandler(users) {
 
     $('#output').empty()
     $table.appendTo( $('#output') )
+    detailOutput(users);
+    
 }
 
 function errorHandler(jqXHR, textStatus, error) {
@@ -61,9 +70,22 @@ function errorHandler(jqXHR, textStatus, error) {
 function contactList(){
     $("#contactlist").show();
     $("#newcontact").hide();
+    $("#detailoutput").hide();
 }
 
 function newContact(){
     $("#newcontact").show();
     $("#contactlist").hide();
+    $("#detailoutput").hide();
+}
+
+function detailPage(){
+    $("#detailoutput").show();
+    $("#contactlist").hide();
+    $("#newcontact").hide();
+}
+
+function detailOutput(users){
+    $('#detailoutput').html('<label for="name">Name: </label><strong>'+users[users.length-1].name+'</strong><br><label for="email">Email: </label><strong>'+users[users.length-1].email+'</strong><br><label for="phone">Phone: </label><strong>'+users[users.length-1].phone+'</strong>')
+
 }

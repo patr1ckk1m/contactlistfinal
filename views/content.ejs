@@ -1,0 +1,63 @@
+<div id = "contactlist">
+    <h1 style = "margin-left: 80px">Contact List</h1>
+</div>
+
+
+    <script>
+        function check_phone(pnum){
+            var regex = /^((?![0-1])[0-9]{10})$/g;
+            if(regex.test(pnum.phone.value)){
+                return true;
+            }
+            else{
+                alert("Phone number must be 10 numbers long and cannot start with 0 or 1");
+                return false;
+            }
+        }
+    </script>
+
+
+<div id = "newcontact">
+    <div class = "contactform">
+        <div class = "graybar">
+            <h5>New Contact</h5>
+        </div>
+        <!-- <form method="post" onSubmit="return check_phone(this)">  posting to /details route  -->
+            <div class = "contactfields">
+                <div id="name">
+                    <label for="name">Name: </label><br>
+                    <input type="text" name="name" id="" class = "inputfield" required>
+                </div>
+                <div id="email">
+                    <label for="email">Email: </label><br>
+                    <input type="email" name="email" id="" class = "inputfield" required>
+                </div>
+                <div id="phone">
+                    <label for="phone">Phone: </label><br>
+                    <input type="text" name="phone" id="" class = "inputfield" required>
+                </div><br>
+                <a href = "/details"><input type="submit" value="Submit" id = "submit"></a>
+                <!-- <input type="submit" value="Submit" id = "submit"> -->
+            </div>
+        <!-- </form> -->
+    </div>
+</div>
+
+
+
+
+<h2>Submit AJAX Data v7</h2>
+
+<div id="name-group">
+    <label for="name">Name</label>
+    <input type="text" name="name" placeholder="Your name">
+</div>
+
+<div id="email-group">
+    <label for="email">Email</label>
+    <input type="text" name="email" placeholder="Your email">
+</div>
+
+<button id="sendButtopn">Create a User</button>
+
+<!-- <div id="output"></div> -->

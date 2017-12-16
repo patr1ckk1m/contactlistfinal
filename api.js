@@ -6,13 +6,10 @@ const store = require('./data/store')
 api.post('/user', (req, res) => {
     const user = req.body
     const users = store.getUsers()
-
     let userId = 1
-
     if (users.length > 0) {
         userId = users[users.length - 1].id + 1
     }
-
     const newUser = {
         id: userId,
         name: req.body.name,
@@ -51,8 +48,42 @@ api.delete('/user/:id', (req, res) => {
         }
         contactindex--;
     }
+    store.saveUsers(users) //save the user
+    res.json(users);
+})
 
-    store.saveUsers(users)
+api.post('/user/specificuser', (req, res) => { //post route to get a specific user by id
+    const users = store.getUsers(); //get the users from store
+    const user = req.body; //grab the user from req.body
+    let specificuserid; //initialize the specific user id to be moved based on index
+    for (let i = users.length - 1; i >= 0; i--) {
+        if (users[i].name == user.name && users[i].email == user.email && users[i].phone == user.phone) {
+            specificuserid = users[i]; //if the user of the id matches, the specific id becomes users[i]
+            res.json(JSON.stringify(specificuserid)); //stringify that i
+        }
+        else {
+            continue;
+        }
+    }
+})
+
+api.put('/user/:id', (req, res) => { //updated a user based on their id
+    const contactChanged = req.body;
+    let users = store.getUsers(); //get the user from store
+    let edited = false;
+    let index = 0; //initialize
+    while (!edited && index < users.length) {
+        if (users[index].id == contactChanged.id) {
+            users[index].name = contactChanged.name;
+            users[index].email = contactChanged.email;
+            users[index].phone = contactChanged.phone;
+    
+            edited = true;
+        }
+        index++;
+    }
+
+    store.saveUsers(users);
     res.json(users);
 })
 
